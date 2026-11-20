@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #F8FAFC;
+  --color-sidebar: #FFFFFF;
+  --color-card: #FFFFFF;
+  --color-card-hover: #F8FAFC;
+  --color-text: #111827;
+  --color-muted-text: #64748B;
+  --color-muted: #F1F5F9;
+  --color-border: #E2E8F0;
+  --color-border-hover: #CBD5E1;
+}
+
+.dark {
+  --color-bg: #0B1120;
+  --color-sidebar: #111827;
+  --color-card: #172033;
+  --color-card-hover: #1E293B;
+  --color-text: #F8FAFC;
+  --color-muted-text: #94A3B8;
+  --color-muted: #1E293B;
+  --color-border: #293548;
+  --color-border-hover: #374151;
+}
+
+body {
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  overflow-x: hidden;
+}
+
+/* Custom sleek scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted-text);
+}
+
+/* Glassmorphism & premium UI touches */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.dark .glass {
+  background: rgba(17, 24, 39, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Print styles for Reports PDF export */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  aside, nav, header, button:not(.print-show), .no-print {
+    display: none !important;
+  }
+  main {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+  .card {
+    border: 1px solid #E5E7EB !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+}

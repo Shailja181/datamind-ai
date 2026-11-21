@@ -1,11 +1,12 @@
 import axios from 'axios';
 
-// Central API configuration: connects directly to FastAPI backend
-export const API_BASE_URL = 'http://127.0.0.1:8000';
+// Central API configuration: connects to live Render backend or local Vite override
+export const API_BASE_URL =
+  import.meta.env.VITE_API_URL || 'https://datamind-backend-gj13.onrender.com';
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 30000,
+  timeout: 45000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -13,8 +14,8 @@ export const api = axios.create({
 
 // Interceptor for uniform error details
 api.interceptors.response.use(
-  response => response,
-  error => {
+  (response) => response,
+  (error) => {
     if (error.response) {
       const message = error.response.data?.detail || error.response.data?.message || error.message;
       console.error(`API Error [${error.response.status}]:`, message);

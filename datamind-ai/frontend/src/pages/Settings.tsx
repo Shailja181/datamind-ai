@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDataset } from '../contexts/DatasetContext';
 import { datasetService } from '../services/datasetService';
+import { API_BASE_URL } from '../services/api';
 import { Card, CardHeader } from '../components/common/Card';
 import { Button } from '../components/common/Button';
 import { Badge } from '../components/common/Badge';
@@ -121,7 +122,7 @@ export const Settings: React.FC = () => {
               <Server className="w-4 h-4 text-brand-500" />
               <div>
                 <p className="font-semibold text-foreground">API Base URL</p>
-                <p className="text-[11px] font-mono text-muted-foreground">http://127.0.0.1:8000</p>
+                <p className="text-[11px] font-mono text-muted-foreground">{API_BASE_URL}</p>
               </div>
             </div>
             {backendConnected ? (

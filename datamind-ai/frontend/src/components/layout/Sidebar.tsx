@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useDataset } from '../../contexts/DatasetContext';
+import { API_BASE_URL } from '../../services/api';
 
 const NAV_ITEMS = [
   { path: '/', label: 'Overview', icon: LayoutDashboard },
@@ -45,6 +46,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const location = useLocation();
   const { selectedDataset, datasets } = useDataset();
+
+  const displayHost = API_BASE_URL.replace(/^https?:\/\//, '').split('/')[0];
 
   return (
     <>
@@ -168,13 +171,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 <div className="w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0" />
                 <div className="min-w-0">
                   <p className="text-xs font-semibold text-foreground truncate">FastAPI & MCP</p>
-                  <p className="text-[10px] text-muted-foreground font-mono">127.0.0.1:8000</p>
+                  <p className="text-[10px] text-muted-foreground font-mono truncate">{displayHost}</p>
                 </div>
               </div>
               <Zap className="w-3.5 h-3.5 text-brand-500 flex-shrink-0" />
             </div>
           ) : (
-            <div className="flex justify-center py-2" title="Backend: 127.0.0.1:8000">
+            <div className="flex justify-center py-2" title={`Backend: ${displayHost}`}>
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-emerald-500/20" />
             </div>
           )}

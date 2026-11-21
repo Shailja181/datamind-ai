@@ -8,14 +8,13 @@ import {
   Database,
   ChevronDown,
   Bell,
-  User,
   CheckCircle2,
   AlertTriangle,
-  RefreshCw,
   Sparkles,
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useDataset } from '../../contexts/DatasetContext';
+import { API_BASE_URL } from '../../services/api';
 import { Button } from '../common/Button';
 import { Badge } from '../common/Badge';
 
@@ -87,7 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onMobileToggle, onOpenUploadModa
             <button
               onClick={() => refreshDatasets()}
               className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-destructive/10 text-destructive border border-destructive/20 text-xs font-medium hover:bg-destructive/20 transition-colors"
-              title="Click to retry connecting to 127.0.0.1:8000"
+              title={`Click to retry connecting to ${API_BASE_URL}`}
             >
               <AlertTriangle className="w-3.5 h-3.5" />
               <span>Offline (Retry)</span>
@@ -213,15 +212,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onMobileToggle, onOpenUploadModa
                 </div>
                 <div className="py-3 space-y-2.5">
                   <div className="text-xs p-2 rounded-xl bg-muted/60 border border-border">
-                    <p className="font-semibold text-foreground">FastMCP Server Ready</p>
+                    <p className="font-semibold text-foreground">FastMCP Server Active</p>
                     <p className="text-muted-foreground text-[11px] mt-0.5">
                       STDIO tools ready: analyze_dataset, get_column_summary, query_dataset, detect_anomalies.
                     </p>
                   </div>
                   <div className="text-xs p-2 rounded-xl bg-muted/60 border border-border">
-                    <p className="font-semibold text-foreground">Dataset Engine Initialized</p>
-                    <p className="text-muted-foreground text-[11px] mt-0.5">
-                      FastAPI running on http://127.0.0.1:8000.
+                    <p className="font-semibold text-foreground">Cloud API Connected</p>
+                    <p className="text-muted-foreground text-[11px] mt-0.5 truncate">
+                      {API_BASE_URL}
                     </p>
                   </div>
                 </div>

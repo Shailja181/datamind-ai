@@ -5,6 +5,7 @@ import { Navbar } from './Navbar';
 import { Modal } from '../common/Modal';
 import { UploadDropzone } from '../data/UploadDropzone';
 import { useDataset } from '../../contexts/DatasetContext';
+import { API_BASE_URL } from '../../services/api';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import { Button } from '../common/Button';
 
@@ -23,7 +24,7 @@ export const Layout: React.FC = () => {
           <div className="flex items-center gap-2">
             <AlertCircle className="w-4 h-4 flex-shrink-0" />
             <span>
-              Backend server is currently unreachable at <strong>http://127.0.0.1:8000</strong>. Please verify that the FastAPI backend is running.
+              Backend API is currently waking up or unreachable at <strong>{API_BASE_URL}</strong>. If hosted on Render free tier, the first request may take ~20-30 seconds.
             </span>
           </div>
           <Button

@@ -19,6 +19,7 @@ import {
   Server,
   Layers,
 } from 'lucide-react';
+import { API_BASE_URL } from '../services/api';
 
 const HARDCODED_MCP_TOOLS: MCPToolInfo[] = [
   {
@@ -102,16 +103,16 @@ export const MCPMonitor: React.FC = () => {
       let resultData: any = null;
 
       if (selectedTool.name === 'analyze_dataset') {
-        const res = await fetch(`http://127.0.0.1:8000/api/datasets/${toolInputs.dataset_id}/eda`);
+        const res = await fetch(`${API_BASE_URL}/api/datasets/${toolInputs.dataset_id}/eda`);
         resultData = await res.json();
       } else if (selectedTool.name === 'get_column_summary') {
-        const res = await fetch(`http://127.0.0.1:8000/api/datasets/${toolInputs.dataset_id}/summary?column=${encodeURIComponent(toolInputs.column)}`);
+        const res = await fetch(`${API_BASE_URL}/api/datasets/${toolInputs.dataset_id}/summary?column=${encodeURIComponent(toolInputs.column)}`);
         resultData = await res.json();
       } else if (selectedTool.name === 'detect_anomalies') {
-        const res = await fetch(`http://127.0.0.1:8000/api/datasets/${toolInputs.dataset_id}/anomalies?method=${toolInputs.method || 'iqr'}`);
+        const res = await fetch(`${API_BASE_URL}/api/datasets/${toolInputs.dataset_id}/anomalies?method=${toolInputs.method || 'iqr'}`);
         resultData = await res.json();
       } else if (selectedTool.name === 'query_dataset') {
-        const res = await fetch(`http://127.0.0.1:8000/api/datasets/${toolInputs.dataset_id}/query`, {
+        const res = await fetch(`${API_BASE_URL}/api/datasets/${toolInputs.dataset_id}/query`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

@@ -50,6 +50,17 @@ def seed_sample_datasets():
         print(f"Sample data startup load notice: {e}")
 
 
+@app.get("/")
+def root():
+    return {
+        "status": "online",
+        "service": "DataMind AI – Agentic Data Analytics Platform API",
+        "health": "/api/health",
+        "documentation": "/docs",
+        "datasets": "/api/datasets",
+    }
+
+
 @app.get("/api/health")
 def health():
     return {"status": "ok", "version": "1.0.0", "engine": "fastapi"}

@@ -24,6 +24,7 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { formatNumber } from '../utils/formatters';
+import { API_BASE_URL } from '../services/api';
 
 export const EDA: React.FC = () => {
   const { selectedDataset } = useDataset();
@@ -44,10 +45,7 @@ export const EDA: React.FC = () => {
       setError(null);
       const [edaRes, previewRes] = await Promise.all([
         analyticsService.getEDA(did),
-        analyticsService.getEDA(did).then(() =>
-          // fetch preview to compute scatter/histograms from actual data
-          fetch(`http://127.0.0.1:8000/api/datasets/${did}/preview?n=150`).then(r => r.json())
-        ),
+        fetch(`${API_BASE_URL}/api/datasets/${did}/preview?n=150`).then((r) => r.json()),
       ]);
       setEda(edaRes);
       setPreviewData(previewRes || []);

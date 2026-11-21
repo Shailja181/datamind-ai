@@ -4,6 +4,8 @@ import pandas as pd
 import numpy as np
 from fastapi import FastAPI, File, HTTPException, UploadFile, Query, Body
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
 from app.analytics import engine
@@ -50,8 +52,26 @@ def seed_sample_datasets():
         print(f"Sample data startup load notice: {e}")
 
 
+# Locate compiled React frontend distribution for unified single-link deployment
+candidate_dist_paths = [
+    Path(__file__).resolve().parents[2] / "frontend" / "dist",
+    Path(__file__).resolve().parents[1] / "dist",
+    Path(__file__).resolve().parents[2] / "backend" / "dist",
+    Path("frontend/dist").resolve(),
+    Path("dist").resolve(),
+    Path("../frontend/dist").resolve(),
+]
+FRONTEND_DIST = None
+for p in candidate_dist_paths:
+    if p.exists() and (p / "index.html").exists():
+        FRONTEND_DIST = p
+        break
+
+
 @app.get("/")
 def root():
+    if FRONTEND_DIST.exists() and (FRONTEND_DIST / "index.html").exists():
+        return FileResponse(FRONTEND_DIST / "index.html")
     return {
         "status": "online",
         "service": "DataMind AI – Agentic Data Analytics Platform API",
@@ -504,3 +524,21 @@ def mcp_tools():
 @app.get("/api/mcp/logs")
 def mcp_logs():
     return []
+
+
+# --- SERVE COMPILED FRONTEND FOR UNIFIED SINGLE-LINK DEPLOYMENT ---
+if FRONTEND_DIST and FRONTEND_DIST.exists():
+    assets_dir = FRONTEND_DIST / "assets"
+    if assets_dir.exists():
+        app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
+
+    @app.get("/{full_path:path}")
+    async def serve_spa_frontend(full_path: str):
+        # Exclude API endpoints and OpenAPI/Swagger docs from SPA catch-all
+        if full_path.startswith("api") or full_path.startswith("docs") or full_path.startswith("openapi.json"):
+            raise HTTPException(404, "Endpoint not found")
+        requested_file = FRONTEND_DIST / full_path
+        if full_path and requested_file.is_file():
+            return FileResponse(requested_file)
+        return FileResponse(FRONTEND_DIST / "index.html")
+

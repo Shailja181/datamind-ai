@@ -1,8 +1,11 @@
 import axios from 'axios';
 
-// Central API configuration: connects to live Render backend or local Vite override
+// Central API configuration: connects to current domain origin or fallback to Render cloud
 export const API_BASE_URL =
-  import.meta.env.VITE_API_URL || 'https://datamind-backend-gj13.onrender.com';
+  import.meta.env.VITE_API_URL ||
+  (typeof window !== 'undefined' && window.location.origin && !window.location.origin.includes(':5173')
+    ? window.location.origin
+    : 'https://datamind-backend-gj13.onrender.com');
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
